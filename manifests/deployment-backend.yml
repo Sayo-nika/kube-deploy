@@ -1,0 +1,23 @@
+# Copyright 2019 (c) Sayonika Project Authors. All Rights Reserved.
+# Licensed under MIT. You should have recieved a copy of the license on the project root.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: claritymoe/sayonika-backend:latest
+        ports:
+        - containerPort: 4444
