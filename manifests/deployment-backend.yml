@@ -5,7 +5,8 @@ kind: Deployment
 metadata:
   name: backend
   labels:
-    app: backend
+    app: app-backend
+    tier: backend
 spec:
   replicas: 2
   selector:
@@ -14,10 +15,15 @@ spec:
   template:
     metadata:
       labels:
-        app: backend
+        app: app-backend
+        tier: backend
     spec:
       containers:
       - name: backend
         image: claritymoe/sayonika-backend:latest
+        resources:
+          requests:
+             cpu: 100m
+             memory: 512Mi
         ports:
-        - containerPort: 4444
+          - containerPort: 4444

@@ -10,14 +10,20 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: frontend
+      app: app-frontend
+      tier: frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: app-frontend
+        tier: frontend
     spec:
       containers:
       - name: frontend
         image: claritymoe/sayonika-frontend:latest
+        resources:
+          requests:
+             cpu: 100m
+             memory: 512Mi
         ports:
         - containerPort: 8080

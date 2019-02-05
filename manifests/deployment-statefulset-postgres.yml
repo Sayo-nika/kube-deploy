@@ -1,0 +1,52 @@
+# Copyright 2019 (c) Sayonika Project Authors. All Rights Reserved.
+# Licensed under MIT. You should have recieved a copy of the license on the project root.
+
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: postgres-cluster
+  labels:
+    app: postgres-cluster
+spec:
+  serviceName: postgres-cluster
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: postgres-cluster
+        tier: backend
+      annotations:
+    spec:
+      containers:
+      - name: postgres-cluster
+        image: postgres
+        env:
+          # Ops note: Don't deploy it like this!
+
+          - name: POSTGRES_USER
+            value: sayonika 
+          
+          - name: POSTGRES_PASSWORD
+            value: dbpassword
+          
+
+          - name: POSTGRES_DB
+            value: sayonika
+        ports:
+          - containerPort: 5432
+        volumeMounts:
+          - name: data
+            mountPath: /var/lib/postgresql/data
+            readOnly: false
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      labels:
+        name: postgres-cluster
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+            storage: 10Gi
