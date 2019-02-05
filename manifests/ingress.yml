@@ -1,3 +1,6 @@
+# Copyright 2019 (c) Sayonika Project Authors. All Rights Reserved.
+# Licensed under MIT. You should have recieved a copy of the license on the project root.
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
