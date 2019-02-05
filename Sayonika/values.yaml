@@ -1,0 +1,59 @@
+ingress:
+  ui:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - local.sayonika.moe
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+  api:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - api.local.containerum.io
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+frontend:
+  tags:
+    platformdb: true
+  env:
+    local:
+      SAYONIKA_API_ORIGIN: null
+
+backend:
+  rbac:
+    serviceAccountName: sayonika
+  env:
+    global:
+      EXCLUDED_NS: "default,kube-system"
+    local:
+      SAYONIKA_DB_HOST: null
+      SAYONIKA_DB_NAME: sayonika
+      SAYONIKA_DB_USERNAME: null
+      SAYONIKA_DB_PASSWORD: null
+
+postgresql:
+  persistence:
+    enabled: true
+    existingClaim:
+  postgresDatabase: sayonika
+  postgresUser: user
+  postgresPassword: password
+
+elasticsearch:
+  persistence:
+    enabled: true
+    existingClaim:
+     ingress:
+       enabled: true
