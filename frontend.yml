@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sayonika
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sayonika-frontend-secrets
+data:
+  # Please fill this appropriately before deploying this else you're fucked
+  recaptcha_checkbox_key: ''
+  recaptcha_invisible_key: ''
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: sayonika-frontend
+ namespace: sayonika
+spec:
+ ports:
+ - port: 8080
+   name: frontend-exeternal
+   protocol: TCP
+ selector:
+   app: sayonika
+   tier: frontend
+ type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sayonika
+    tier: frontend
+  name: sayonika-frontend
+  namespace: sayonika
+spec:
+  selector:
+    matchLabels:
+      app: sayonika
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: sayonika
+        tier: frontend
+    spec:
+      containers:
+      - image: chinodesuuu/sayonika-frontend:latest
+        imagePullPolicy: Always
+        name: sayonika-frontend
+        env:
+          - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+               name: sayonika-frontend-secrets
+               key: recaptcha_invisible_key
+          - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+               name: sayonika-frontend-secrets
+               key: recaptcha_checkbox_key
+          - name: SAYONIKA_API_ORIGIN
+            value: http://sayonika-backend:8000
+        ports:
+        - containerPort: 8080
+          name: frontend-exeternal

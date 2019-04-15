@@ -1,0 +1,39 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend/
+    ports:
+      - 8080:8080
+    environment:
+      - SAYONIKA_RECAPTCHA_INVISIBLE_SITE_KEY
+      - SAYONIKA_RECAPTCHA_CHECKBOX_SITE_KEY
+      - SAYONIKA_API_ORIGIN=http://backend:8000/
+  backend:
+    build: ./backend/
+    ports:
+      - 8081:8000
+    environment:
+      - SAYONIKA_DB_HOST=postgres
+      - SAYONIKA_DB_PORT=5432
+      - SAYONIKA_DB_USER=postgres
+      - SAYONIKA_DB_PASS=
+      - SAYONIKA_DB_NAME=postgres
+      - SAYONIKA_JWT_SECRET
+      - SAYONIKA_OWO_KEY
+      - SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
+      - SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
+      - SAYONIKA_AES_KEY
+  services:
+    build: ./backend/services/
+    ports:
+      - 8082:9000
+    environment:
+      - SAYONIKA_DB_HOST=postgres
+      - SAYONIKA_DB_PORT=5432
+      - SAYONIKA_DB_USER=postgres
+      - SAYONIKA_DB_PASS=
+      - SAYONIKA_DB_NAME=postgres
+      - SAYONIKA_AV_VIRUSTOTAL_APIKEY
+  postgres:
+    image: "postgres:11-alpine"
+
