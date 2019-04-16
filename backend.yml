@@ -93,15 +93,6 @@ spec:
       containers:
       - image: postgres:latest
         imagePullPolicy: Always
-        name: sayonika-backend-db
-        volumeMounts:
-          - name: backend-db
-            mountPath: /var/lib/postgresql/data
-        volumes:
-          - name: backend-db
-            hostPath:
-               path: /etc/clarity/sayonika/production_data
-               type: DirectoryOrCreate
         env:
           - name: POSTGRES_DB
             valueFrom:
@@ -120,9 +111,19 @@ spec:
               secretKeyRef:
                name: sayonika-backend-secrets
                key: db_user
+        volumeMounts:
+          - name: backend-db
+            mountPath: /var/lib/postgresql/data
+
         ports:
         - containerPort: 5432
           name: sayonika-backend-db
+
+      volumes:
+        - name: backend-db
+          hostPath:
+              path: /etc/clarity/sayonika/production_data
+              type: DirectoryOrCreate
 
 ---
 apiVersion: apps/v1
@@ -190,7 +191,7 @@ metadata:
   labels:
     app: sayonika
     tier: backend
-  name: sayonika-frontend
+  name: sayonika-backend
   namespace: sayonika
 spec:
   selector:
