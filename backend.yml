@@ -54,6 +54,77 @@ spec:
  type: ClusterIP
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+ name: sayonika-backend-db
+ namespace: sayonika
+spec:
+ ports:
+ - port: 5432
+   name: sayonika-backend-db
+   protocol: TCP
+ selector:
+   app: sayonika
+   tier: backend
+ type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sayonika
+    tier: frontend
+  name: sayonika-backend
+  namespace: sayonika
+spec:
+  selector:
+    matchLabels:
+      app: sayonika
+      tier: backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: sayonika
+        tier: backend
+    spec:
+      containers:
+      - image: postgres:latest
+        imagePullPolicy: Always
+        name: sayonika-backend-db
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+          - name: backend-db
+        volumes:
+          - name: backend-db
+            hostPath:
+               path: /etc/clarity/sayonika/production_data
+               type: DirectoryOrCreate
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+               name: sayonika-backend-secrets
+               key: db_name
+
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+               name: sayonika-backend-secrets
+               key: db_pass
+
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+               name: sayonika-backend-secrets
+               key: db_user
+        ports:
+        - containerPort: 5432
+          name: sayonika-backend-db
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -110,7 +181,7 @@ spec:
                key: db_user
         ports:
         - containerPort: 8082
-          name: sayonika-backend
+          name: sayonika-backend-services
 
 ---
 apiVersion: apps/v1
