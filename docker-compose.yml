@@ -1,7 +1,9 @@
 version: '3'
 services:
+  postgres:
+    image: postgres:11-alpine
   frontend:
-    build: ./frontend/
+    image: sayonika/frontend:beta
     ports:
       - 8080:8080
     environment:
@@ -9,7 +11,7 @@ services:
       - SAYONIKA_RECAPTCHA_CHECKBOX_SITE_KEY
       - SAYONIKA_API_ORIGIN=http://backend:8000/
   backend:
-    build: ./backend/
+    image: sayonika/backend:beta
     ports:
       - 8081:8000
     environment:
@@ -24,7 +26,7 @@ services:
       - SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
       - SAYONIKA_AES_KEY
   services:
-    build: ./backend/services/
+    image: sayonika/services:beta
     ports:
       - 8082:9000
     environment:
@@ -34,6 +36,4 @@ services:
       - SAYONIKA_DB_PASS=
       - SAYONIKA_DB_NAME=postgres
       - SAYONIKA_AV_VIRUSTOTAL_APIKEY
-  postgres:
-    image: "postgres:11-alpine"
 
