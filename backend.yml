@@ -6,7 +6,7 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: sayonika-backend-secrets
+  name: backend-secrets
 data:
   # Please fill this appropriately before deploying this else you're fucked
   recaptcha_checkbox_key: ''
@@ -25,12 +25,12 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
- name: sayonika-backend
+ name: backend
  namespace: sayonika
 spec:
  ports:
  - port: 8000
-   name: sayonika-backend
+   name: backend
    protocol: TCP
  selector:
    app: sayonika
@@ -41,12 +41,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
- name: sayonika-backend-services
+ name: backend-srvcs
  namespace: sayonika
 spec:
  ports:
  - port: 8082
-   name: sayonika-backend-services
+   name: backend-srvcs
    protocol: TCP
  selector:
    app: sayonika
@@ -57,12 +57,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
- name: sayonika-backend-db
+ name: sayonika-db
  namespace: sayonika
 spec:
  ports:
  - port: 5432
-   name: sayonika-backend-db
+   name: sayonika-db
    protocol: TCP
  selector:
    app: sayonika
@@ -75,8 +75,8 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: backend
-  name: sayonika-db
+    tier: frontend
+  name: backend
   namespace: sayonika
 spec:
   selector:
@@ -93,23 +93,24 @@ spec:
       containers:
       - image: postgres:latest
         imagePullPolicy: Always
+        name: sayonika-postgres
         env:
           - name: POSTGRES_DB
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_name
 
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_pass
 
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_user
         volumeMounts:
           - name: backend-db
@@ -131,8 +132,8 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: backend
-  name: sayonika-backend
+    tier: frontend
+  name: backend
   namespace: sayonika
 spec:
   selector:
@@ -149,12 +150,12 @@ spec:
       containers:
       - image: chinodesuuu/sayonika-backend-services:latest
         imagePullPolicy: Always
-        name: sayonika-backend
+        name: sayonika-frontend
         env:
           - name: SAYONIKA_AV_VIRUSTOTAL_APIKEY
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: virustotal_key
 
           - name: SAYONIKA_DB_HOST
@@ -166,23 +167,23 @@ spec:
           - name: SAYONIKA_DB_NAME
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_name
 
           - name: SAYONIKA_DB_PASS
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_pass
 
           - name: SAYONIKA_DB_USER
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_user
         ports:
         - containerPort: 8082
-          name: sayonika-backend-services
+          name: backend-srvcs
 
 ---
 apiVersion: apps/v1
@@ -191,7 +192,7 @@ metadata:
   labels:
     app: sayonika
     tier: backend
-  name: sayonika-backend
+  name: backend
   namespace: sayonika
 spec:
   selector:
@@ -208,18 +209,18 @@ spec:
       containers:
       - image: chinodesuuu/sayonika-backend:latest
         imagePullPolicy: Always
-        name: sayonika-backend
+        name: sayonika-frontend
         env:
           - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: recaptcha_invisible_key
 
           - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: recaptcha_checkbox_key
 
           - name: SAYONIKA_DB_HOST
@@ -231,46 +232,46 @@ spec:
           - name: SAYONIKA_DB_NAME
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_name
 
           - name: SAYONIKA_DB_PASS
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_pass
 
           - name: SAYONIKA_DB_USER
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: db_user
 
           - name: SAYONIKA_OWO_KEY
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: owo_key
 
           - name: SAYONIKA_MAIL_SERVER
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: mail_host
 
           - name: SAYONIKA_MAIL_USER
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: mail_user
 
 
           - name: SAYONIKA_MAIL_PASSWORD
             valueFrom:
               secretKeyRef:
-               name: sayonika-backend-secrets
+               name: backend-secrets
                key: mail_pass
         
         ports:
         - containerPort: 8000
-          name: sayonika-backend
+          name: backend
