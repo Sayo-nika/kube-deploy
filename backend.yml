@@ -95,8 +95,8 @@ spec:
         imagePullPolicy: Always
         name: sayonika-backend-db
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data
           - name: backend-db
+            mountPath: /var/lib/postgresql/data
         volumes:
           - name: backend-db
             hostPath:
