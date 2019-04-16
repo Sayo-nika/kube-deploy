@@ -76,7 +76,7 @@ metadata:
   labels:
     app: sayonika
     tier: backend
-  name: sayonika-backend
+  name: sayonika-db
   namespace: sayonika
 spec:
   selector:
@@ -117,7 +117,7 @@ spec:
 
         ports:
         - containerPort: 5432
-          name: sayonika-backend-db
+          name: sayonika-db
 
       volumes:
         - name: backend-db
@@ -145,8 +145,6 @@ spec:
       labels:
         app: sayonika
         tier: backend
-      name: sayonika-backend-db
-      namespace: sayonika
     spec:
       containers:
       - image: chinodesuuu/sayonika-backend-services:latest
@@ -163,7 +161,7 @@ spec:
             value: postgresql
 
           - name: SAYONIKA_DB_PORT
-            value: 5432
+            value: "5432"
 
           - name: SAYONIKA_DB_NAME
             valueFrom:
@@ -228,7 +226,7 @@ spec:
             value: postgresql
 
           - name: SAYONIKA_DB_PORT
-            value: 5432
+            value: "5432"
 
           - name: SAYONIKA_DB_NAME
             valueFrom:
