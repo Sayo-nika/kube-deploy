@@ -148,7 +148,7 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: chinodesuuu/sayonika-backend-services:latest
+      - image: sayonika/services:beta
         imagePullPolicy: Always
         name: sayonika-frontend
         env:
@@ -207,7 +207,7 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: chinodesuuu/sayonika-backend:latest
+      - image: sayonika/backend:beta
         imagePullPolicy: Always
         name: sayonika-frontend
         env:
