@@ -145,6 +145,8 @@ spec:
       labels:
         app: sayonika
         tier: backend
+      name: sayonika-backend-db
+      namespace: sayonika
     spec:
       containers:
       - image: chinodesuuu/sayonika-backend-services:latest
