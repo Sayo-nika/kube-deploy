@@ -75,7 +75,7 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: frontend
+    tier: backend
   name: sayonika-backend
   namespace: sayonika
 spec:
@@ -131,7 +131,7 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: frontend
+    tier: backend
   name: sayonika-backend
   namespace: sayonika
 spec:
@@ -149,7 +149,7 @@ spec:
       containers:
       - image: chinodesuuu/sayonika-backend-services:latest
         imagePullPolicy: Always
-        name: sayonika-frontend
+        name: sayonika-backend
         env:
           - name: SAYONIKA_AV_VIRUSTOTAL_APIKEY
             valueFrom:
@@ -208,7 +208,7 @@ spec:
       containers:
       - image: chinodesuuu/sayonika-backend:latest
         imagePullPolicy: Always
-        name: sayonika-frontend
+        name: sayonika-backend
         env:
           - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
             valueFrom:
