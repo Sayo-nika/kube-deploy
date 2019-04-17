@@ -116,11 +116,9 @@ spec:
           volumeMounts:
             - name: backend-db
               mountPath: /var/lib/postgresql/data
-
           ports:
             - containerPort: 5432
               name: sayonika-db
-
       volumes:
         - name: backend-db
           hostPath:
@@ -160,7 +158,7 @@ spec:
                 key: virustotal_key
 
             - name: SAYONIKA_DB_HOST
-              value: postgresql
+              value: sayonika-db
 
             - name: SAYONIKA_DB_PORT
               value: "5432"
@@ -225,7 +223,7 @@ spec:
                 key: recaptcha_checkbox_key
 
             - name: SAYONIKA_DB_HOST
-              value: postgresql
+              value: sayonika-db
 
             - name: SAYONIKA_DB_PORT
               value: "5432"
