@@ -41,12 +41,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-srvcs
+  name: backend-svc
   namespace: sayonika
 spec:
   ports:
     - port: 8082
-      name: backend-srvcs
+      name: backend-svc
       protocol: TCP
   selector:
     app: sayonika
@@ -91,7 +91,7 @@ spec:
       containers:
         - image: postgres:latest
           imagePullPolicy: Always
-          name: sayonika-postgres
+          name: postgres
           env:
             - name: POSTGRES_DB
               valueFrom:
@@ -143,7 +143,7 @@ spec:
       containers:
         - image: sayonika/services:beta
           imagePullPolicy: Always
-          name: sayonika-frontend
+          name: services
           env:
             - name: SAYONIKA_AV_VIRUSTOTAL_APIKEY
               valueFrom:
@@ -176,7 +176,7 @@ spec:
                   key: db_user
           ports:
             - containerPort: 8082
-              name: backend-srvcs
+              name: backend-svc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -201,7 +201,7 @@ spec:
       containers:
         - image: sayonika/backend:beta
           imagePullPolicy: Always
-          name: sayonika-frontend
+          name: backend
           env:
             - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
               valueFrom:
