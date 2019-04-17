@@ -55,13 +55,13 @@ spec:
             - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                name: frontend-secrets
-                key: recaptcha_invisible_key
+                  name: frontend-secrets
+                  key: recaptcha_invisible_key
             - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                name: frontend-secrets
-                key: recaptcha_checkbox_key
+                  name: frontend-secrets
+                  key: recaptcha_checkbox_key
             - name: SAYONIKA_API_ORIGIN
               value: http://backend:8000
           ports:

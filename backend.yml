@@ -37,7 +37,6 @@ spec:
     app: sayonika
     tier: backend
   type: ClusterIP
-
 ---
 apiVersion: v1
 kind: Service
@@ -53,7 +52,6 @@ spec:
     app: sayonika
     tier: backend
   type: ClusterIP
-
 ---
 apiVersion: v1
 kind: Service
@@ -69,7 +67,6 @@ spec:
     app: sayonika
     tier: backend
   type: ClusterIP
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -99,20 +96,18 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_name
-
+                  name: backend-secrets
+                  key: db_name
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_pass
-
+                  name: backend-secrets
+                  key: db_pass
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_user
+                  name: backend-secrets
+                  key: db_user
           volumeMounts:
             - name: backend-db
               mountPath: /var/lib/postgresql/data
@@ -122,9 +117,8 @@ spec:
       volumes:
         - name: backend-db
           hostPath:
-              path: /etc/clarity/sayonika/production_data
-              type: DirectoryOrCreate
-
+            path: /etc/clarity/sayonika/production_data
+            type: DirectoryOrCreate
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -154,8 +148,8 @@ spec:
             - name: SAYONIKA_AV_VIRUSTOTAL_APIKEY
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: virustotal_key
+                  name: backend-secrets
+                  key: virustotal_key
 
             - name: SAYONIKA_DB_HOST
               value: sayonika-db
@@ -166,24 +160,23 @@ spec:
             - name: SAYONIKA_DB_NAME
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_name
+                  name: backend-secrets
+                  key: db_name
 
             - name: SAYONIKA_DB_PASS
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_pass
+                  name: backend-secrets
+                  key: db_pass
 
             - name: SAYONIKA_DB_USER
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_user
+                  name: backend-secrets
+                  key: db_user
           ports:
             - containerPort: 8082
               name: backend-srvcs
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -213,14 +206,14 @@ spec:
             - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: recaptcha_invisible_key
+                  name: backend-secrets
+                  key: recaptcha_invisible_key
 
             - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: recaptcha_checkbox_key
+                  name: backend-secrets
+                  key: recaptcha_checkbox_key
 
             - name: SAYONIKA_DB_HOST
               value: sayonika-db
@@ -231,46 +224,43 @@ spec:
             - name: SAYONIKA_DB_NAME
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_name
+                  name: backend-secrets
+                  key: db_name
 
             - name: SAYONIKA_DB_PASS
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_pass
+                  name: backend-secrets
+                  key: db_pass
 
             - name: SAYONIKA_DB_USER
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: db_user
+                  name: backend-secrets
+                  key: db_user
 
             - name: SAYONIKA_OWO_KEY
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: owo_key
+                  name: backend-secrets
+                  key: owo_key
 
             - name: SAYONIKA_MAIL_SERVER
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: mail_host
+                  name: backend-secrets
+                  key: mail_host
 
             - name: SAYONIKA_MAIL_USER
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: mail_user
-
-
+                  name: backend-secrets
+                  key: mail_user
             - name: SAYONIKA_MAIL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                name: backend-secrets
-                key: mail_pass
-          
+                  name: backend-secrets
+                  key: mail_pass
           ports:
             - containerPort: 8000
               name: backend
