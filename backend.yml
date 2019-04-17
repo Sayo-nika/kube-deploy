@@ -73,20 +73,20 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: frontend
-  name: backend
+    tier: postgres
+  name: postgres
   namespace: sayonika
 spec:
   selector:
     matchLabels:
       app: sayonika
-      tier: backend
+      tier: postgres
   replicas: 2
   template:
     metadata:
       labels:
         app: sayonika
-        tier: backend
+        tier: postgres
     spec:
       containers:
         - image: postgres:latest
@@ -125,20 +125,20 @@ kind: Deployment
 metadata:
   labels:
     app: sayonika
-    tier: frontend
-  name: backend
+    tier: backend-svc
+  name: backend-svc
   namespace: sayonika
 spec:
   selector:
     matchLabels:
       app: sayonika
-      tier: backend
+      tier: backend-svc
   replicas: 2
   template:
     metadata:
       labels:
         app: sayonika
-        tier: backend
+        tier: backend-svc
     spec:
       containers:
         - image: sayonika/services:beta
