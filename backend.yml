@@ -50,22 +50,22 @@ spec:
       protocol: TCP
   selector:
     app: sayonika
-    tier: backend
+    tier: backend-svc
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sayonika-db
+  name: postgres
   namespace: sayonika
 spec:
   ports:
     - port: 5432
-      name: sayonika-db
+      name: postgres
       protocol: TCP
   selector:
     app: sayonika
-    tier: backend
+    tier: postgres
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -98,11 +98,13 @@ spec:
                 secretKeyRef:
                   name: backend-secrets
                   key: db_name
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: backend-secrets
                   key: db_pass
+
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -113,7 +115,7 @@ spec:
               mountPath: /var/lib/postgresql/data
           ports:
             - containerPort: 5432
-              name: sayonika-db
+              name: postgres
       volumes:
         - name: backend-db
           hostPath:
@@ -152,7 +154,7 @@ spec:
                   key: virustotal_key
 
             - name: SAYONIKA_DB_HOST
-              value: sayonika-db
+              value: postgres
 
             - name: SAYONIKA_DB_PORT
               value: "5432"
@@ -216,7 +218,7 @@ spec:
                   key: recaptcha_checkbox_key
 
             - name: SAYONIKA_DB_HOST
-              value: sayonika-db
+              value: postgres
 
             - name: SAYONIKA_DB_PORT
               value: "5432"
@@ -256,6 +258,7 @@ spec:
                 secretKeyRef:
                   name: backend-secrets
                   key: mail_user
+
             - name: SAYONIKA_MAIL_PASSWORD
               valueFrom:
                 secretKeyRef:
