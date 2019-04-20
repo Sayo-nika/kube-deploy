@@ -25,6 +25,9 @@ services:
       - SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
       - SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
       - SAYONIKA_AES_KEY
+      - SAYONIKA_MAIL_SERVER
+      - SAYONIKA_MAIL_USER
+      - SAYONIKA_MAIL_PASSWORD
   services:
     image: sayonika/services:beta
     ports:
