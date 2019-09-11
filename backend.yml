@@ -10,8 +10,7 @@ metadata:
   namespace: sayonika
 data:
   # Please fill this appropriately before deploying this else you're fucked
-  recaptcha_checkbox_key: ''
-  recaptcha_invisible_key: ''
+  recaptcha_secret_key: ''
   virustotal_key: ''
   aes_key: ''
   jwt_secret: ''
@@ -19,9 +18,7 @@ data:
   db_pass: ''
   db_user: ''
   db_name: ''
-  mail_host: ''
-  mail_user: ''
-  mail_pass: ''
+  mailgun_key: ''
 ---
 apiVersion: v1
 kind: Service
@@ -205,17 +202,11 @@ spec:
           imagePullPolicy: Always
           name: backend
           env:
-            - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
+            - name: SAYONIKA_RECAPTCHA_SECRET
               valueFrom:
                 secretKeyRef:
                   name: backend-secrets
-                  key: recaptcha_invisible_key
-
-            - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: recaptcha_checkbox_key
+                  key: recaptcha_secret
 
             - name: SAYONIKA_DB_HOST
               value: postgres
@@ -247,23 +238,11 @@ spec:
                   name: backend-secrets
                   key: owo_key
 
-            - name: SAYONIKA_MAIL_SERVER
+            - name: SAYONIKA_MAILGUN_KEY
               valueFrom:
                 secretKeyRef:
                   name: backend-secrets
-                  key: mail_host
-
-            - name: SAYONIKA_MAIL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: mail_user
-
-            - name: SAYONIKA_MAIL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: mail_pass
+                  key: mailgun_key
           ports:
             - containerPort: 8000
               name: backend

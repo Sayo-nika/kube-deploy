@@ -10,8 +10,7 @@ metadata:
   namespace: sayonika
 data:
   # Please fill this appropriately before deploying this else you're fucked
-  recaptcha_checkbox_key: ''
-  recaptcha_invisible_key: ''
+  recaptcha_key: ''
 ---
 apiVersion: v1
 kind: Service
@@ -52,16 +51,11 @@ spec:
           imagePullPolicy: Always
           name: frontend
           env:
-            - name: SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
+            - name: SAYONIKA_RECAPTCHA_KEY
               valueFrom:
                 secretKeyRef:
                   name: frontend-secrets
-                  key: recaptcha_invisible_key
-            - name: SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: frontend-secrets
-                  key: recaptcha_checkbox_key
+                  key: recaptcha_key
             - name: SAYONIKA_API_ORIGIN
               value: http://backend:8000
           ports:
