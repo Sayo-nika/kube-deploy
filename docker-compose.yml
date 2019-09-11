@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:11-alpine
   frontend:
-    image: sayonika/frontend:beta
+    image: sayonika/frontend:nightly
     ports:
       - 8080:8080
     environment:
@@ -11,7 +11,7 @@ services:
       - SAYONIKA_RECAPTCHA_CHECKBOX_SITE_KEY
       - SAYONIKA_API_ORIGIN=http://backend:8000/
   backend:
-    image: sayonika/backend:beta
+    image: sayonika/backend:nightly
     ports:
       - 8081:8000
     environment:
