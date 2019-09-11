@@ -7,8 +7,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - SAYONIKA_RECAPTCHA_INVISIBLE_SITE_KEY
-      - SAYONIKA_RECAPTCHA_CHECKBOX_SITE_KEY
+      - SAYONIKA_RECAPTCHA_KEY
       - SAYONIKA_API_ORIGIN=http://backend:8000/
   backend:
     image: sayonika/backend:nightly
@@ -22,14 +21,11 @@ services:
       - SAYONIKA_DB_NAME=postgres
       - SAYONIKA_JWT_SECRET
       - SAYONIKA_OWO_KEY
-      - SAYONIKA_RECAPTCHA_INVISIBLE_SECRET_KEY
-      - SAYONIKA_RECAPTCHA_CHECKBOX_SECRET_KEY
+      - SAYONIKA_RECAPTCHA_SECRET_KEY
       - SAYONIKA_AES_KEY
-      - SAYONIKA_MAIL_SERVER
-      - SAYONIKA_MAIL_USER
-      - SAYONIKA_MAIL_PASSWORD
+      - SAYONIKA_MAILGUN_KEY
   services:
-    image: sayonika/services:beta
+    image: sayonika/services:nightly
     ports:
       - 8082:9000
     environment:
