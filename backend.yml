@@ -143,7 +143,7 @@ spec:
         tier: backend-svc
     spec:
       containers:
-        - image: sayonika/services:beta
+        - image: sayonika/services:nightly
           imagePullPolicy: Always
           name: services
           env:
@@ -201,7 +201,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: sayonika/backend:beta
+        - image: sayonika/backend:nightly
           imagePullPolicy: Always
           name: backend
           env:
